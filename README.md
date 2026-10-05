@@ -43,5 +43,11 @@ code, and combining API data with my own locally stored data.
 - Game detail view
 - Tracked list section, grouped or filterable by status
 
+## What ive learnt
+- **Variable scope**: the difference between a variable declared inside a function versus one declared at the top level of the script, and why top-level variables are needed to share data between separate functions
+- **Building HTML dynamically**: looping through an array and using string concatenation (`+=`) to build up a block of HTML, then injecting it into the page with `innerHTML`
+- **Script placement in the DOM**: a `<script>` tag needs to load after the HTML elements it references, otherwise `document.getElementById()` returns `null` because the browser hasn't built those elements yet
+- **Debugging from error messages**: traced a `Cannot read properties of null` error back to its actual cause (script running before the DOM was ready) rather than guessing at fixes
+
 ## Status
-🟡 Planning
+🟡 Coding
