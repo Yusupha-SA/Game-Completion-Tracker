@@ -10,7 +10,7 @@ if (saved) {
 function renderTrackedList() {
   let html = "";
   for (let i = 0; i < trackedGames.length; i++) {
-    html += `<li>${trackedGames[i].title} - ${trackedGames[i].status}</li>`;
+  html += `<li>${trackedGames[i].title} - ${trackedGames[i].status} <button data-index="${i}">Remove</button></li>`;
   }
   document.getElementById("tracked-list").innerHTML = html;
 }
@@ -83,4 +83,13 @@ document.getElementById("add-button").addEventListener("click", function() {
 
   localStorage.setItem("trackedGames", JSON.stringify(trackedGames));
   renderTrackedList();
+});
+
+document.getElementById("tracked-list").addEventListener("click", function(event) {
+  if (event.target.dataset.index) {
+    let index = Number(event.target.dataset.index);
+    trackedGames.splice(index, 1);
+    localStorage.setItem("trackedGames", JSON.stringify(trackedGames));
+    renderTrackedList();
+  }
 });
