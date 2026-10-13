@@ -1,6 +1,7 @@
 let allGames = [];
 let selectedGame = null;
 let trackedGames = [];
+let currentFilter = "All";
 
 let saved = localStorage.getItem("trackedGames");
 if (saved) {
@@ -10,7 +11,9 @@ if (saved) {
 function renderTrackedList() {
   let html = "";
   for (let i = 0; i < trackedGames.length; i++) {
-  html += `<li>${trackedGames[i].title} - ${trackedGames[i].status} <button data-index="${i}">Remove</button></li>`;
+    if (currentFilter === "All" || trackedGames[i].status === currentFilter) {
+      html += `<li>${trackedGames[i].title} - ${trackedGames[i].status} <button data-index="${i}">Remove</button></li>`;
+    }
   }
   document.getElementById("tracked-list").innerHTML = html;
 }
@@ -90,6 +93,13 @@ document.getElementById("tracked-list").addEventListener("click", function(event
     let index = Number(event.target.dataset.index);
     trackedGames.splice(index, 1);
     localStorage.setItem("trackedGames", JSON.stringify(trackedGames));
+    renderTrackedList();
+  }
+});
+
+document.getElementById("filter-buttons").addEventListener("click", function(event) {
+  if (event.target.dataset.status) {
+    currentFilter = event.target.dataset.status;
     renderTrackedList();
   }
 });
