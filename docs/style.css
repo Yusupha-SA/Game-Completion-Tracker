@@ -1,0 +1,156 @@
+/* ===== COLOURS =====
+   all the colours live here so I can change the whole theme from one place
+   used further down with var(--name) */
+:root {
+  --bg: #12141c;            /* page background */
+  --panel: #1b1e2b;         /* cards and sections */
+  --panel-light: #252a3c;   /* list items, buttons, hover */
+  --border: #2f3550;        /* thin outlines */
+  --text: #e6e8f0;          /* main text */
+  --muted: #9aa0b5;         /* softer text, like descriptions */
+  --accent: #7c5cff;        /* main purple, buttons and highlights */
+  --accent-hover: #9479ff;  /* lighter purple when hovering */
+}
+
+/* makes widths include padding and borders so sizes behave how I expect */
+* { box-sizing: border-box; }
+
+/* ===== PAGE BASICS ===== */
+body {
+  margin: 0;
+  padding: 24px;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* keeps everything centred and stops it stretching too wide on big screens */
+#app { max-width: 1100px; margin: 0 auto; }
+
+/* ===== HEADER ===== */
+header { text-align: center; margin-bottom: 24px; }
+h1 { margin: 0 0 8px; font-size: 2.2rem; }
+header p { color: var(--muted); margin: 0 0 16px; }
+
+/* ===== SEARCH BOX ===== */
+#search-box {
+  width: 100%;
+  max-width: 480px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  color: var(--text);
+  background-color: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+/* purple outline when I click into it */
+#search-box:focus { outline: none; border-color: var(--accent); }
+
+/* ===== TWO COLUMN LAYOUT =====
+   grid with two equal columns, My List on the left and All Games on the right */
+#columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* each column is a card */
+section {
+  background-color: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+section h2 { margin-top: 0; }
+
+/* removes the bullet points and default spacing from every list */
+ul { list-style: none; margin: 0; padding: 0; }
+
+/* ===== BUTTONS =====
+   every button on the page, including filter, remove, add and close */
+button {
+  background-color: var(--panel-light);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+button:hover { background-color: var(--accent); border-color: var(--accent); }
+
+/* ===== FILTER BUTTONS =====
+   flex puts them in a row, wrap lets them drop to the next line if there's no room */
+#filter-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+
+/* ===== MY LIST ITEMS =====
+   each tracked game is a small card, flex lines up the title, remove button
+   and the rating and notes boxes in a row */
+#tracked-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  background-color: var(--panel-light);
+  border-radius: 8px;
+}
+/* rating and notes boxes */
+#tracked-list input {
+  padding: 6px 10px;
+  color: var(--text);
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+#tracked-list input[type="number"] { width: 110px; }                  /* rating stays small */
+#tracked-list input[type="text"] { flex: 1; min-width: 140px; }       /* notes takes the leftover space */
+
+/* ===== ALL GAMES LIST =====
+   there are 400+ games so it scrolls inside its own box instead of making the page really long */
+#game-list { max-height: 600px; overflow-y: auto; }
+#game-list li { padding: 10px 12px; border-radius: 6px; cursor: pointer; }
+/* highlights the game when I hover over it */
+#game-list li:hover { background-color: var(--panel-light); color: var(--accent-hover); }
+
+/* ===== GAME POPUP =====
+   fixed pins it to the window, top 50% and left 50% plus the translate centres it exactly
+   z-index keeps it on top of everything else */
+#modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 440px;
+  max-height: 85vh;          /* never taller than the screen */
+  overflow-y: auto;          /* scrolls inside the popup if the description is long */
+  padding: 24px;
+  background-color: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  /* the dark overlay trick: a huge shadow around the popup dims the whole page behind it */
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.65);
+  z-index: 10;
+}
+#modal img { width: 100%; border-radius: 8px; }   /* cover image fills the popup width */
+#modal h2 { margin: 16px 0 8px; }
+#modal p { color: var(--muted); margin: 6px 0; }
+/* status dropdown */
+#modal select {
+  padding: 8px;
+  color: var(--text);
+  background-color: var(--panel-light);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+/* "Add to my list" is purple all the time so it stands out from the other buttons */
+#add-button { background-color: var(--accent); border-color: var(--accent); }
+#add-button:hover { background-color: var(--accent-hover); }
+
+/* ===== SMALL SCREENS =====
+   under 800px wide the two columns stack into one */
+@media (max-width: 800px) {
+  #columns { grid-template-columns: 1fr; }
+}
