@@ -24,9 +24,9 @@ This is project 2 of my self directed JavaScript portfolio series, where I build
 - [FreeToGame API](https://www.freetogame.com/api-doc)
 - localStorage for saving data
 
-## Screenshots
+## Clips
+![Completed Project(not styled)](screenshots/CompleteNoStyle.mp4)
 
-Add your screenshots or a short demo clip here.
 
 ## How It Works
 
