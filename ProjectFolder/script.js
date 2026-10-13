@@ -11,8 +11,12 @@ if (saved) {
 function renderTrackedList() {
   let html = "";
   for (let i = 0; i < trackedGames.length; i++) {
-    if (currentFilter === "All" || trackedGames[i].status === currentFilter) {
-      html += `<li>${trackedGames[i].title} - ${trackedGames[i].status} <button data-index="${i}">Remove</button></li>`;
+    let game = trackedGames[i];
+    if (currentFilter === "All" || game.status === currentFilter) {
+      html += `<li>${game.title} - ${game.status} <button data-remove="${i}">Remove</button>`;
+      html += ` <input type="number" min="1" max="10" placeholder="Rating /10" data-field="rating" data-index="${i}" value="${game.rating || ""}">`;
+      html += ` <input type="text" placeholder="Notes" data-field="notes" data-index="${i}" value="${game.notes || ""}">`;
+      html += `</li>`;
     }
   }
   document.getElementById("tracked-list").innerHTML = html;
@@ -89,8 +93,8 @@ document.getElementById("add-button").addEventListener("click", function() {
 });
 
 document.getElementById("tracked-list").addEventListener("click", function(event) {
-  if (event.target.dataset.index) {
-    let index = Number(event.target.dataset.index);
+  if (event.target.dataset.remove) {
+    let index = Number(event.target.dataset.remove);
     trackedGames.splice(index, 1);
     localStorage.setItem("trackedGames", JSON.stringify(trackedGames));
     renderTrackedList();
@@ -101,5 +105,14 @@ document.getElementById("filter-buttons").addEventListener("click", function(eve
   if (event.target.dataset.status) {
     currentFilter = event.target.dataset.status;
     renderTrackedList();
+  }
+});
+
+document.getElementById("tracked-list").addEventListener("input", function(event) {
+  if (event.target.dataset.field) {
+    let index = Number(event.target.dataset.index);
+    let field = event.target.dataset.field;
+    trackedGames[index][field] = event.target.value;
+    localStorage.setItem("trackedGames", JSON.stringify(trackedGames));
   }
 });
